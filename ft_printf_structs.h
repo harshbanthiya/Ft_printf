@@ -1,6 +1,7 @@
 #ifndef ft_printf_structs_h
 #define ft_printf_structs_h
 
+/* Formatting struct */
 typedef struct
 {
 	struct{
@@ -19,6 +20,7 @@ typedef struct
 	char 	specifier; /* Conversion specifier*/
 }format;
 
+/* Output details struct */
 typedef struct
 {
 	char 	*str;
@@ -26,6 +28,7 @@ typedef struct
 	int 	chrs_printed;
 }print_output;
 
+/* all the information struct */
 typedef struct
 {
 	format			fmt;

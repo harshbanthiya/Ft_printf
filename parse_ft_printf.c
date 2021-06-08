@@ -53,7 +53,7 @@ int 	parse_field_width(print_data *data, char *str, va_list args)
 	int 	temp;
 	
 	chrs_read = 0;
-	if(*str == 0 || *str == '.' || (!is_digit(*str) && *str != '*'))
+	if(*str == 0 || *str == '.' || (!ft_isdigit(*str) && *str != '*'))
 		return (0);
 	if (*str == '*')
 	{
@@ -79,6 +79,58 @@ int 	parse_field_width(print_data *data, char *str, va_list args)
 	return (chrs_read);
 }
 
+/* parse precision parses precision and saves value on data->fmt.precision and returns characters read and error is -1 */
+int 	parse_precision(print_data *data, char 	*str, va_list args)
+{
+	int 	chrs_read;
+	int 	precision;
+	
+	chrs_read = 0;
+	if (!data || !str)
+		return (-1);
+	if (*str != '.')
+		return (chrs_read);
+	chrs_read++;
+	str++;
+	if (*str == '*')
+	{
+		chrs_read++;
+		precision = va_arg(args, int);
+	}
+	else if (ft_isdigit(*str) || *str == '-')
+	{
+		chrs_read += str_to_int(str, &precision);
+		if(chrs_read == -1)
+			return (-1);
+	}
+	else
+		precision = 0;
+	/* Negative precision is taken as if it is omitted */
+	if (precision >= 0)
+		data->fmt.precision =precision;
+	return (chrs_read);
+}
+/* parses optional length modifier for 'h' 'l' 'L' saves value on data->fmt.length_modifier return 1 if good else 0*/
+int 	parse_length_modifier(print_data *data, char chr)
+{
+	if (!data)
+		return (-1);
+	switch(chr)
+	{
+		case 'h':
+		case 'l':
+		case 'L':
+			data->fmt.length_modifier = chr;
+			break;
+		default: /* no modifier present */
+			break;
+	}
+	if (data->fmt.length_modifier)
+		return (1);
+	else
+		return (0);
+}
+
 /* parse format parses format string except the conversion specifier
 	the *str  must start after '%' character and returns number of chars read
 	returns error othewise */
@@ -100,5 +152,24 @@ int		parse_format(print_data *data, char *str, va_list args)
 		chrs_read += temp;
 		str += temp;
 	}
-	
+	/* Field Width */
+	temp = parse_field_width(data, str, args);
+	if (temp == -1)
+		return (-1);
+	else
+	{
+		chrs_read += temp;
+		str += temp;
+	}
+	/* Precision */
+	temp = parse_precision(data, str, args);
+	if (temp == -1)
+		return (-1);
+	else
+	{
+		chrs_read += temp;
+		str += temp;
+	}
+	/*	Length Modifier */
+	return (chrs_read + parse_length_modifier(data, *str));
 }
