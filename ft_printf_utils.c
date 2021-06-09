@@ -19,7 +19,7 @@ void	reset_data(print_data *data)
 {
 	reset_format(&data->fmt);
 	data->out_put.str = 0;
-	data->out_put.str_ptr = 0;
+	data->out_put.str_ptr = 0; 
 	data->out_put.chrs_printed = 0;
 }
 
@@ -88,4 +88,73 @@ int 	emit_chr(print_data	*data, char chr)
 	*data->out_put.str_ptr++ = chr;
 	*data->out_put.str_ptr = '\0';
 	return (1);
+}
+/* Print_Str prints a string 'str' according to the format given in "data" and returns the number of chrs_printed or -1 */
+int 	print_str(print_data *data, char *str)
+{
+	int 	length;
+	int 	chrs_printed;
+	int 	temp;
+	
+	if (!data || !str)
+		return (-1);
+	data->fmt.flags.zero_pad = 0;
+	/* Useless in case of strings */
+	/* Precision however can limit characters */
+	length = ft_strlen(str);
+	if (data->fmt.precision >= 0 && length > data->fmt.precision)
+		length = data->fmt.precision;
+	chrs_printed = length;
+	temp = print_left_padding(data, length);
+	if (temp == -1)
+		return (-1);
+	else
+		chrs_printed += temp;
+	/* Print the entire string of just some characters */
+	if (data->fmt.precision >= 0)
+	{
+		temp = length; /* length <= strlen(str) */
+		while (*str != '\0' && --temp >= 0)
+		{
+			if (emit_chr(data, *str++) == -1)
+				return (-1);
+		}
+	}
+	else
+	{
+		if (emit_str(data, str) == -1)
+			return (-1);
+	}
+	temp = print_right_padding(data, length);
+	if (temp == -1)
+		return (-1);
+	else
+		chrs_printed += temp;
+	return (chrs_printed);
+}
+
+/* print_char prints a char according to "data" and returns the number of characters printed or -1 */
+
+int print_char (print_data *data, char 	chr)
+{
+	int 			chrs_printed;
+	int 			temp;
+	const int		length = 1; /*char is one character */
+	
+	chrs_printed = 0;
+	if (!data)
+		return (-1);
+	data->fmt.flags.zero_pad = 0; /* useless with char */
+	temp = print_left_padding(data, length);
+	if (temp == -1)
+		return (-1);
+	else
+		chrs_printed += temp;
+	temp = emit_chr(data, length);
+	if (temp == -1)
+		return (-1);
+	else
+		chrs_printed += temp;
+	return (chrs_printed);
+	
 }

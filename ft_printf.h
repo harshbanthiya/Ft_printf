@@ -20,6 +20,8 @@ int 	emit_chr(print_data	*data, char chr);
 int 	emit_str(print_data *data, char *str);
 int		ft_strlen(const char *str);
 void 	ft_putstr(char *s);
+int 	print_str(print_data *data, char *str);
+int 	print_char (print_data *data, char 	chr);
 
 /* parsers */
 int 	parse_flags(print_data *data, char *str);
