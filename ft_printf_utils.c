@@ -35,7 +35,7 @@ int str_to_int(char *str, int *result)
 	long 	parsed;
 	int 	chrs_read;
 	
-	if (!str && !result && (*str == '-' || ft_isdigit(*str)))
+	if (!str && !result && (*str != '-' || !ft_isdigit(*str)))
 		return (-1);
 	parsed = strtol(str, &end_ptr, 10); /* change later */
 	if (parsed > INT_MAX || parsed < INT_MIN)
