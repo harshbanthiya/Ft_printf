@@ -1,32 +1,32 @@
 #include "ft_printf.h"
-#include "ft_printf_structs.h"
 
-/*	parse-flags parses flag characters and updates them to format struct and returns number of char read*/
-int 	parse_flags(print_data *data, char *str)
+int 	parse_flags(struct data *print_data, char *str)
 {
-	int 	is_flag;
 	int 	chrs_read;
+	int 	is_flag;
 	
-	is_flag = 1;
+	if (!print_data || !str)
+		return (-1);
 	chrs_read = 0;
+	is_flag = 1;
 	while(is_flag)
 	{
-		switch (*str)
+		switch(*str)
 		{
-			case '-':
-				data->fmt.flags.left_align = 1;
-				break;
 			case '+':
-				data->fmt.flags.show_sign = 1;
+				print_data->fmt.flags.show_sign = T;
+				break;
+			case '-':
+				print_data->fmt.flags.left_justify = T;
 				break;
 			case ' ':
-				data->fmt.flags.initial_space = 1;
-				break;
-			case '0':
-				data->fmt.flags.zero_pad = 1;
+				print_data->fmt.flags.initial_space = T;
 				break;
 			case '#':
-				data->fmt.flags.alternative_output = 1;
+				print_data->fmt.flags.alternate_output = T;
+				break;
+			case '0':
+				print_data->fmt.flags.zero_pad = T;
 				break;
 			default:
 				is_flag = 0;
@@ -38,23 +38,23 @@ int 	parse_flags(print_data *data, char *str)
 			chrs_read++;
 		}
 	}
-	/* Straight Conflicts resolve */
-	if (data->fmt.flags.zero_pad && data->fmt.flags.left_align)
-		data->fmt.flags.zero_pad = 0;
-	if (data->fmt.flags.initial_space && data->fmt.flags.show_sign)
-		data->fmt.flags.initial_space = 0;
+	/* conflict resolve */
+	if(print_data->fmt.flags.zero_pad && print_data->fmt.flags.left_justify)
+		print_data->fmt.flags.zero_pad = F;
+	if (print_data->fmt.flags.initial_space && print_data->fmt.flags.show_sign)
+		print_data->fmt.flags.initial_space = F;
 	return (chrs_read);
 }
 
-int 	parse_field_width(print_data *data, char *str, va_list args)
+int		parse_field_width(struct data *print_data, char *str, va_list args)
 {
 	int 	chrs_read;
 	int 	field_width;
 	int 	temp;
 	
-	chrs_read = 0;
-	if(*str == 0 || *str == '.' || (!ft_isdigit(*str) && *str != '*'))
+	if(*str == 0 || *str == '.'|| (!ft_isdigit(*str) && *str != '*'))
 		return (0);
+	chrs_read = 0;
 	if (*str == '*')
 	{
 		chrs_read++;
@@ -69,25 +69,24 @@ int 	parse_field_width(print_data *data, char *str, va_list args)
 	}
 	if (field_width < 0)
 	{
-		data->fmt.flags.left_align = 1;
+		print_data->fmt.flags.left_justify = 1;
 		if (INT_MAX + field_width < 0)
-			return (-1); /* OVerflow*/
+			return (-1); /* Overflow */
 		else
 			field_width = -field_width;
 	}
-	data->fmt.field_width = field_width;
+	print_data->fmt.width = field_width;
 	return (chrs_read);
 }
 
-/* parse precision parses precision and saves value on data->fmt.precision and returns characters read and error is -1 */
-int 	parse_precision(print_data *data, char 	*str, va_list args)
+int 	parse_precision(struct data *print_data, char *str, va_list args)
 {
 	int 	chrs_read;
 	int 	precision;
 	
-	chrs_read = 0;
-	if (!data || !str)
+	if (!print_data || !str)
 		return (-1);
+	chrs_read = 0;
 	if (*str != '.')
 		return (chrs_read);
 	chrs_read++;
@@ -100,51 +99,47 @@ int 	parse_precision(print_data *data, char 	*str, va_list args)
 	else if (ft_isdigit(*str) || *str == '-')
 	{
 		chrs_read += str_to_int(str, &precision);
-		if(chrs_read == -1)
+		if (chrs_read == -1)
 			return (-1);
 	}
 	else
 		precision = 0;
-	/* Negative precision is taken as if it is omitted */
 	if (precision >= 0)
-		data->fmt.precision =precision;
+		print_data->fmt.precision = precision;
 	return (chrs_read);
 }
-/* parses optional length modifier for 'h' 'l' 'L' saves value on data->fmt.length_modifier return 1 if good else 0*/
-int 	parse_length_modifier(print_data *data, char chr)
+
+int 	parse_length_modifier(struct data *print_data, char chr)
 {
-	if (!data)
+	if (!print_data)
 		return (-1);
 	switch(chr)
 	{
 		case 'h':
 		case 'l':
 		case 'L':
-			data->fmt.length_modifier = chr;
+			print_data->fmt.length_modifier = chr;
 			break;
-		default: /* no modifier present */
+		default:
 			break;
 	}
-	if (data->fmt.length_modifier)
+	if (print_data->fmt.length_modifier)
 		return (1);
 	else
 		return (0);
 }
 
-/* parse format parses format string except the conversion specifier
-	the *str  must start after '%' character and returns number of chars read
-	returns error othewise */
-int		parse_format(print_data *data, char *str, va_list args)
+int 	parse_format_info(struct data *print_data, char *str, va_list args)
 {
 	int 	temp;
 	int 	chrs_read;
 	
-	if (!data || !str || !*str)
-		return (-1);
+	if(!print_data || !str || *str == '\0')
+		return(-1);
 	chrs_read = 0;
-	reset_format(&data->fmt);
-	/* flag parsing */
-	temp = parse_flags(data, str);
+	reset_format_info(&print_data->fmt);
+	/* First parse flags */
+	temp = parse_flags(print_data, str);
 	if (temp == -1)
 		return (-1);
 	else
@@ -152,8 +147,8 @@ int		parse_format(print_data *data, char *str, va_list args)
 		chrs_read += temp;
 		str += temp;
 	}
-	/* Field Width */
-	temp = parse_field_width(data, str, args);
+	/* Parse field width */
+	temp = parse_field_width(print_data, str, args);
 	if (temp == -1)
 		return (-1);
 	else
@@ -161,8 +156,8 @@ int		parse_format(print_data *data, char *str, va_list args)
 		chrs_read += temp;
 		str += temp;
 	}
-	/* Precision */
-	temp = parse_precision(data, str, args);
+	/* Parse Precision */
+	temp = parse_precision(print_data, str, args);
 	if (temp == -1)
 		return (-1);
 	else
@@ -170,6 +165,14 @@ int		parse_format(print_data *data, char *str, va_list args)
 		chrs_read += temp;
 		str += temp;
 	}
-	/*	Length Modifier */
-	return (chrs_read + parse_length_modifier(data, *str));
+	/* Parse Length Modifier */
+	temp = parse_length_modifier(print_data, *str);
+	if (temp == -1)
+		return (-1);
+	else
+	{
+		chrs_read += temp;
+		str += temp;
+	}
+	return (chrs_read);
 }
