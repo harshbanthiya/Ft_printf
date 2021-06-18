@@ -49,7 +49,7 @@ struct data
 	struct string_info	output;
 };
 
-/* // FUNCTION CALLS //*/
+// FUNCTION CALLS 
 /* Utilities */
 void 			reset_format_info(struct format_info *format);
 void 			reset_data(struct data *print_data);
@@ -65,15 +65,23 @@ int				ft_strlen(char *str);
 int 			ft_putstr(struct data *print_data, char *s);
 int				ft_putnbr(struct data *print_data, long value);
 int 			get_length_long(struct data *print_data, long value);
-static int 		get_number_of_digits(long value);
-static int 		get_number_digits_unsigned(unsigned long number, int base);
-
+int 			get_number_of_digits(long value);
+int 			get_number_digits_unsigned(unsigned long number, int base);
+int				parse_field_width(struct data *print_data, char *str, va_list args);
+int 			print_field_width(struct data *print_data, int length);
+int				assign_base(char chr, int *base);
+void				put_correct_sign(struct data *print_data, int *temp, long *val);
+void			make_precision(struct data *print_data, int *chrs_p, long *val);
+int				prenum_format(struct data *p_d, int *tp, int *c_p, int *len, long *v);
+void			mk_precision_unsigned(struct data *p_d, int *c_p, unsigned long *val, int *base);
 /* Parse */
 int 	parse_format_info(struct data *print_data, char *str, va_list args);
-
+void 	conflict_resolve(struct data *print_data);
+int 	update_flags(struct data *print_data, char chr);
+int		negative_field_width(struct data *print_data, int *field_width, int *chrs);
 
 /* Print */
-int 	ft_printf(char	*format, ...);
+int 	ft_printf(const char  *format, ...);
 int		generic_print_value(struct data *print_data, char chr, va_list args);
 int 	print_general_int(struct data *print_data, char chr, va_list args);
 int 	print_long(struct data *print_data, long value);

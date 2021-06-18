@@ -1,55 +1,65 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/18 11:38:55 by hbanthiy          #+#    #+#             */
+/*   Updated: 2021/06/18 12:56:56 by hbanthiy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
+
+/* general_print prints an output according to the arguments
+ * and returns the number of characters printed or -1 on error */
 
 int	general_print(struct data *print_data, char *str, va_list args)
 {
-	int 	chrs_printed;
-	char	*chr;
-	int 	temp;
-	
-	if(!print_data || !str)
+	int		chrs_printed;
+	int		temp;
+
+	if (!print_data || !str)
 		return (-1);
 	chrs_printed = 0;
-	chr = str;
-	while(*chr)
+	while (*str)
 	{
-		if(*chr != '%')
+		if (*str != '%')
 		{
-  			temp = ft_putchar(print_data, *chr);
-			if (temp == -1)
-				return (-1);
-			chrs_printed += temp;
-			chr++;
-			continue;
+			chrs_printed += ft_putchar(print_data, *str);
+			str++;
+			continue ;
 		}
-		temp = parse_format_info(print_data, ++chr, args);
+		temp = parse_format_info(print_data, ++str, args);
 		if (temp == -1)
 			return (-1);
-		chr += temp;
-		temp = generic_print_value(print_data, *chr, args);
+		str += temp;
+		temp = generic_print_value(print_data, *str, args);
 		if (temp == -1)
 			return (-1);
 		chrs_printed += temp;
-		chr++;
-		print_data->output.chrs_printed = chrs_printed;
+		str++;
 	}
 	return (chrs_printed);
 }
 
-/* printf takes a string and variable number of arguments and returns the number of chars printed */
-int 	ft_printf(char	*format, ...)
+/* printf takes a string and variable number of arguments 
+ * and returns the number of chars printed */
+
+int 	ft_printf(const char	*format, ...)
 {
-	int			chrs_printed;
-	va_list 	args;
-	struct data print_data;
-	
-	
+	int				chrs_printed;
+	va_list			args;
+	struct data		print_data;
+
 	if (!format)
 		return (-1);
 	chrs_printed = 0;
 	va_start(args, format);
 	reset_data(&print_data);
 	print_data.output.mode = OUTPUT_STDOUT;
-	chrs_printed = general_print(&print_data, format, args);
+	chrs_printed = general_print(&print_data, (char *) format, args);
 	va_end(args);
 	return (chrs_printed);
 }
