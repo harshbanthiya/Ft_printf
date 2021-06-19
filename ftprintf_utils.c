@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 18:22:28 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/19 13:18:03 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/19 17:01:29 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,5 @@ void 	reset_data(t_data *print_data)
 	print_data->precision = -1;
 	print_data->length_modifier = 0;
 	print_data->type_specifier = 0;
-	print_data->mode = OUTPUT_NONE;
+	print_data->mode = OUTPUT_STDOUT;
 }

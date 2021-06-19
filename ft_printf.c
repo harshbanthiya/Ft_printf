@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:38:55 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/18 12:56:56 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/19 17:03:09 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ int 	ft_printf(const char	*format, ...)
 	chrs_printed = 0;
 	va_start(args, format);
 	reset_data(&print_data);
-	print_data.mode = OUTPUT_STDOUT;
 	chrs_printed = general_print(&print_data, (char *) format, args);
 	va_end(args);
 	return (chrs_printed);
