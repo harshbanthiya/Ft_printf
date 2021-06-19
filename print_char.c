@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 14:48:29 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/18 15:29:27 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/19 17:22:18 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ int 	print_str(t_data *print_data, char *str)
 	int		chrs_printed;
 	int		temp;
 
-	if (!print_data || !str)
-		return (-1);
+	if (!str)
+		str = "(null)";
 	print_data->flags.zero_pad = 0;
 	length = ft_strlen(str);
 	if (print_data->precision >= 0 && length > print_data->precision)

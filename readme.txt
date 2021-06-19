@@ -1,0 +1,3 @@
+-- The conflict to negative and zero pad needs to be checked 
+-- The pointer of 0 must return 0x 
+-- Make the n flag and check the problems with H 
