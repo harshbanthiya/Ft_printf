@@ -6,13 +6,13 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:31:56 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/18 15:35:31 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/19 13:20:19 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int get_number_of_digits(long value)
+int	get_number_of_digits(long value)
 {
 	int 	digits;
 	

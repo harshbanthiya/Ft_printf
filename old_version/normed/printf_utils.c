@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   printf_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/19 11:44:20 by hbanthiy          #+#    #+#             */
+/*   Updated: 2021/06/19 11:44:58 by hbanthiy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 /* reset all values inside the format struct */
@@ -44,15 +56,13 @@ int	ft_isdigit(int c)
 
 int	ft_atoi(char *nptr, char **end_ptr)
 {
-	int 		sign;
-	int			result;
+	int		sign;
+	int		result;
 
 	sign = 1;
 	result = 0;
 	while ((9 <= *nptr && *nptr <= 13) || (*nptr == 32))
-	{
 		nptr++;
-	}
 	while (*nptr == '-' || *nptr == '+')
 	{
 		if (result >= 1)

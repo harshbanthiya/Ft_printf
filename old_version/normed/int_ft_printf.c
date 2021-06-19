@@ -6,11 +6,34 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:31:15 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/18 19:34:49 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/19 13:15:46 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+int prenum_fmt_unsign(struct data *print_data, int *tmp, int *c_p, int *len)
+{
+	*tmp = print_left_padding(print_data, *len);
+	if (*tmp == -1)
+		return (-1);
+	else
+		*c_p += *tmp;
+	return (1);
+}
+
+int base_prefix(struct data *p_d, unsigned long val, int *tmp, int *cp, int b)
+{
+	if (val != 0 && p_d->fmt.flags.alternate_output && b != 10)
+	{
+		tmp = ft_putstr(p_d, (unsigned_symbol(p_d, b)));
+		if (*tmp == -1)
+			return (-1);
+		else
+			*cp += *tmp;
+	}
+	return (1);
+}
 
 int	print_unsigned_long(struct data *print_data, unsigned long value, int base)
 {
@@ -20,24 +43,13 @@ int	print_unsigned_long(struct data *print_data, unsigned long value, int base)
 
 	chrs_printed = 0;
 	length = 0;
-	if (!print_data)
-		return (-1);
 	if (print_data->fmt.width > 0)
 		length = get_length_unsigned(print_data, value, base);
-	temp = print_left_padding(print_data, length);
-	if (temp == -1)
+	if ((prenum_fmt_unsign(print_data, &temp, &chrs_printed, &length)) == -1)
 		return (-1);
-	else
-		chrs_printed += temp;
 	mk_precision_unsigned(print_data, &chrs_printed, &value, &base);
-	if (value != 0 && print_data->fmt.flags.alternate_output && base != 10)
-	{
-		temp = ft_putstr(print_data, (unsigned_symbol(print_data, base)));
-		if (temp == -1)
-			return (-1);
-		else
-			chrs_printed += temp;
-	}
+	if (base_prefix(print_data, value, &temp, &chrs_printed, base) == -1)
+		return (-1);
 	temp = ft_put_unsigned_nbr(print_data, value, base);
 	if (temp == -1)
 		return (-1);

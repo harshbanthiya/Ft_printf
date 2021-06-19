@@ -1,22 +1,20 @@
 NAME = libftprintf.a
-CC = gcc  
-CFLAGS = -Wall -Werror -Wextra -I. -c 
-RM = rm -f
+CC = gcc  # C compiler
+CFLAGS = -Wall -Werror -Wextra -I. -c  # C flags
+RM = rm -f   # rm command
 
-HEADER = ft_printf.h \
-		 function_calls.h \
-		 struct.h
+HEADER = ft_printf.h
 
 SRCS = ft_printf.c \
-ftprintf_utils.c \
-gen_int.c \
-gen_int_utils.c  \
-padding_ft_printf.c \
-int_utils.c \
+int_ft_printf.c \
 parse_ft_printf.c \
-parse_utils.c \
-print_char.c \
-unsigned_int_utils.c
+parse_ft_printf_utils.c  \
+padding_ft_printf.c \
+print_ft_printf.c \
+int_utils_ft_printf.c \
+int_utils_2_ft_printf.c \
+print_utils_ft_printf.c \
+printf_utils.c
 
 
 OBJS = $(SRCS:.c=.o)

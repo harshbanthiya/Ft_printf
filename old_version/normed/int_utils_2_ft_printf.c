@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 18:22:28 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/18 19:33:54 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/19 13:18:03 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	make_precision(struct data *p_d, int *c_p, long *val)
 
 void	mk_precision_unsigned(struct data *p_d, int *c_p, unsigned long *val, int *base)
 {
-	int 	digits; 
+	int		digits;
 
 	if (p_d->fmt.precision >= 0)
 	{
@@ -96,7 +96,6 @@ void	mk_precision_unsigned(struct data *p_d, int *c_p, unsigned long *val, int *
 		}
 	}
 }
-
 
 int	prenum_format(struct data *p_d, int *tp, int *c_p, int *len, long *v)
 {
@@ -117,4 +116,3 @@ int	prenum_format(struct data *p_d, int *tp, int *c_p, int *len, long *v)
 		*c_p += *tp;
 	return (1);
 }
-

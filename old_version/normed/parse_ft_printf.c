@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int 	parse_flags(t_data *print_data, char *str)
+int 	parse_flags(struct data *print_data, char *str)
 {
 	int		chrs_read;
 	int		is_flag;
@@ -34,7 +34,7 @@ int 	parse_flags(t_data *print_data, char *str)
 	return (chrs_read);
 }
 
-int	parse_field_width(t_data *print_data, char *str, va_list args)
+int	parse_field_width(struct data *print_data, char *str, va_list args)
 {
 	int		chrs_read;
 	int		field_width;
@@ -57,11 +57,11 @@ int	parse_field_width(t_data *print_data, char *str, va_list args)
 	}	
 	if (field_width < 0)
 		return (negative_field_width(print_data, &field_width, &chrs_read));
-	print_data->width = field_width;
+	print_data->fmt.width = field_width;
 	return (chrs_read);
 }
 
-int 	parse_precision(t_data *print_data, char *str, va_list args)
+int 	parse_precision(struct data *print_data, char *str, va_list args)
 {
 	int		chrs_read;
 	int		precision;
@@ -83,20 +83,39 @@ int 	parse_precision(t_data *print_data, char *str, va_list args)
 	else
 		precision = 0;
 	if (precision >= 0)
-		print_data->precision = precision;
+		print_data->fmt.precision = precision;
 	return (chrs_read);
 }
 
-int 	parse_length_modifier(t_data *print_data, char chr)
+int 	parse_length_modifier(struct data *print_data, char chr)
 {
 	if (!print_data)
 		return (-1);
 	if (chr == 'h' || chr == 'l' || chr == 'L')
-		print_data->length_modifier = chr;
-	if (print_data->length_modifier)
+		print_data->fmt.length_modifier = chr;
+	if (print_data->fmt.length_modifier)
 		return (1);
 	else
 		return (0);
 }
 
+int	parse_format_info(struct data *print_data, char *str, va_list args)
+{
+	int		temp;
+	int		chrs_read;
 
+	if (!print_data || !str || *str == '\0')
+		return (-1);
+	chrs_read = 0;
+	reset_format_info(&print_data->fmt);
+	temp = parse_flags(print_data, str);
+	chrs_read += temp;
+	str += temp;
+	temp = parse_field_width(print_data, str, args);
+	chrs_read += temp;
+	str += temp;
+	temp = parse_precision(print_data, str, args);
+	chrs_read += temp;
+	str += temp;
+	return (chrs_read + parse_length_modifier(print_data, *str));
+}
