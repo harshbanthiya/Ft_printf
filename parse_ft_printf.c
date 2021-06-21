@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 12:57:41 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/21 15:15:05 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/21 15:42:15 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,3 @@ int 	parse_length_modifier(t_data *print_data, char chr)
 	else
 		return (0);
 }
-
-

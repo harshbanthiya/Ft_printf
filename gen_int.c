@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   int_ft_printf.c                                    :+:      :+:    :+:   */
+/*   gen_int.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/18 15:31:15 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/21 14:24:48 by hbanthiy         ###   ########.fr       */
+/*   Created: 2021/06/21 15:36:34 by hbanthiy          #+#    #+#             */
+/*   Updated: 2021/06/21 16:21:40 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	print_long(t_data *p_d, long val)
 	len = 0;
 	if (p_d->width > 0)
 		len = get_length_long(p_d, val);
-	if ((prenum_format(p_d, &tmp, &c_p, &len, &val)) == -1)
+	c_p = prenum_format(p_d, &len, &val);
+	if (c_p == -1)
 		return (-1);
 	make_precision(p_d, &c_p, &val);
 	tmp = ft_putnbr(p_d, val);
@@ -88,7 +89,7 @@ int	print_general_unsigned(t_data *print_data, char chr, va_list args)
 	{
 		if (sizeof(void *) > sizeof(unsigned long))
 			return (-1);
-		print_data->flags.alternate_output = T;
+		print_data->s_flags.alternate_output = T;
 		p = va_arg(args, void *);
 		lu = (unsigned long)p;
 		return (print_unsigned_long(print_data, lu, base));
@@ -96,7 +97,7 @@ int	print_general_unsigned(t_data *print_data, char chr, va_list args)
 	else
 	{
 		if (chr == 'X')
-			print_data->flags.uppercase = T;
+			print_data->s_flags.uppercase = T;
 		if (print_data->length_modifier == 'l')
 			lu = va_arg(args, unsigned long);
 		else
@@ -109,8 +110,8 @@ int	print_general_int(t_data *print_data, char chr, va_list args)
 {
 	long	value;
 
-	if (print_data->precision >= 0 && print_data->flags.zero_pad)
-		print_data->flags.zero_pad = 0;
+	if (print_data->precision >= 0 && print_data->s_flags.zero_pad)
+		print_data->s_flags.zero_pad = 0;
 	if (chr == 'd' || chr == 'i')
 	{
 		if (print_data->length_modifier == 'l')

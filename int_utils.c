@@ -1,68 +1,75 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   int_utils_ft_printf.c                              :+:      :+:    :+:   */
+/*   int_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/18 15:31:56 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/19 17:10:01 by hbanthiy         ###   ########.fr       */
+/*   Created: 2021/06/21 15:37:45 by hbanthiy          #+#    #+#             */
+/*   Updated: 2021/06/21 16:29:20 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int get_length_long(t_data *print_data, long value)
+int	get_length_long(t_data *print_data, long value)
 {
-	t_data 	temp;
-	
+	t_data	temp;
+
 	temp = *print_data;
-	temp.mode = OUTPUT_NONE;
+	temp.e_mode = OUTPUT_NONE;
 	temp.width = 0;
-	
 	return (print_long(&temp, value));
 }
 
 void	put_correct_sign(t_data *p_d, int *tmp, long *val)
 {
-	if (p_d->flags.show_sign && *val >= 0)
+	if (p_d->s_flags.show_sign && *val >= 0)
 		*tmp = ft_putchar(p_d, '+');
 	else if (*val < 0)
 		*tmp = ft_putchar(p_d, '-');
-	else if (p_d->flags.initial_space)
+	else if (p_d->s_flags.initial_space)
 		*tmp = ft_putchar(p_d, ' ');
 	else
 		*tmp = 0;
 }
 
-int	prenum_format(t_data *p_d, int *tp, int *c_p, int *len, long *v)
+int	prenum_format(t_data *p_d, int *len, long *v)
 {
-	*tp = print_left_padding_before_sign(p_d, *len);
-	if (*tp == -1)
+	int		tp;
+	int		c_p;
+
+	c_p = 0;
+	tp = print_left_padding_before_sign(p_d, *len);
+	if (tp == -1)
 		return (-1);
 	else
-		*c_p += *tp;
-	put_correct_sign(p_d, tp, v);
-	if (*tp == -1)
+		c_p += tp;
+	put_correct_sign(p_d, &tp, v);
+	if (tp == -1)
 		return (-1);
 	else
-		*c_p += *tp;
-	*tp = print_left_padding_after_sign(p_d, *len);
-	if (*tp == -1)
+		c_p += tp;
+	tp = print_left_padding_after_sign(p_d, *len);
+	if (tp == -1)
 		return (-1);
 	else
-		*c_p += *tp;
-	return (1);
+		c_p += tp;
+	return (c_p);
 }
 
 int	get_number_of_digits(long value)
 {
-	int 	digits;
-	
+	int		digits;
+
 	digits = 1;
-	while((value /= div_10_sign(value)) != 0)
+	value = value / div_10_sign(value);
+	while (value != 0)
+	{	
 		digits++;
-	return digits;
+		value = value / div_10_sign(value);
+	}
+	return (digits);
 }
 
 void	make_precision(t_data *p_d, int *c_p, long *val)
@@ -81,5 +88,3 @@ void	make_precision(t_data *p_d, int *c_p, long *val)
 		}
 	}
 }
-
-

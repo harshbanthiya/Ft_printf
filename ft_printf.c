@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:38:55 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/19 17:39:53 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/21 16:18:36 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	generic_print_value(t_data *print_data, char chr, va_list args)
 		return (0);
 	else if (chr == 'X')
 	{
-		print_data->flags.uppercase = T;
+		print_data->s_flags.uppercase = T;
 		return (print_general_int(print_data, chr, args));
 	}
 	else if (chr == 'd' || chr == 'i' || chr == 'u')

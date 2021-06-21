@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_utils.c                                     :+:      :+:    :+:   */
+/*   gen_int_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/19 11:44:20 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/19 17:02:28 by hbanthiy         ###   ########.fr       */
+/*   Created: 2021/06/21 15:35:46 by hbanthiy          #+#    #+#             */
+/*   Updated: 2021/06/21 16:27:26 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ int	ft_atoi(char *nptr, char **end_ptr)
 	return (sign * result);
 }
 
-int value_zero(t_data *print_data)
+int	value_zero(t_data *print_data)
 {
 	if (print_data->precision != 0)
-			return (ft_putchar(print_data, '0'));
+		return (ft_putchar(print_data, '0'));
 	return (0);
 }
 
@@ -68,7 +68,7 @@ int	ft_put_unsigned_nbr(t_data *print_data, unsigned long value, int base)
 	remainder = value % base;
 	if (remainder >= 10)
 	{
-		if (print_data->flags.uppercase)
+		if (print_data->s_flags.uppercase)
 			out = remainder - 10 + 'A';
 		else
 			out = remainder - 10 + 'a';
