@@ -44,7 +44,7 @@ int 	get_length_unsigned(t_data *print_data, unsigned long value, int base);
 int 	prenum_fmt_unsign(t_data *print_data, int *tmp, int *c_p, int *len);
 void	mk_precision_unsigned(t_data *p_d, int *c_p, unsigned long *val, int *base);
 int 	get_number_digits_unsigned(unsigned long number, int base);
-int 	base_prefix(t_data *p_d, unsigned long val, int *tmp, int *cp, int b);
+int 	base_prefix(t_data *p_d, int *tmp, int *cp, int b);
 int		ft_put_unsigned_nbr(t_data *print_data, unsigned long value, int base);
 /* Padding Functions */
 int 	print_field_width(t_data *print_data, int length);

@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 15:31:15 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/19 17:28:39 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/21 14:24:48 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	print_unsigned_long(t_data *print_data, unsigned long value, int base)
 	if ((prenum_fmt_unsign(print_data, &temp, &chrs_printed, &length)) == -1)
 		return (-1);
 	mk_precision_unsigned(print_data, &chrs_printed, &value, &base);
-	if (base_prefix(print_data, value, &temp, &chrs_printed, base) == -1)
+	if (base_prefix(print_data, &temp, &chrs_printed, base) == -1)
 		return (-1);
 	temp = ft_put_unsigned_nbr(print_data, value, base);
 	if (temp == -1)

@@ -47,9 +47,9 @@ void	mk_precision_unsigned(t_data *p_d, int *c_p, unsigned long *val, int *base)
 	}
 }
 
-int base_prefix(t_data *p_d, unsigned long val, int *tmp, int *cp, int b)
+int base_prefix(t_data *p_d, int *tmp, int *cp, int b)
 {
-	if (val != 0 && p_d->flags.alternate_output && b != 10)
+	if (p_d->flags.alternate_output && b != 10)
 	{
 		*tmp = ft_putstr(p_d, (unsigned_symbol(p_d, b)));
 		if (*tmp == -1)

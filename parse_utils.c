@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 14:26:54 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/18 14:42:48 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/21 15:16:04 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	negative_field_width(t_data *print_data, int *field_width, int *chrs)
 		return (-1);
 	else
 		*field_width = -(*field_width);
+	conflict_resolve(print_data);
 	print_data->width = *field_width;
 	return (*chrs);
 }
