@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:38:55 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/21 18:18:17 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/21 18:25:19 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int 	ft_printf(const char	*format, ...)
 	va_list		args;
 	t_data		print_data;
 
-	if (!format || !print_data)
+	if (!format)
 		return (-1);
 	chrs_printed = 0;
 	va_start(args, format);
