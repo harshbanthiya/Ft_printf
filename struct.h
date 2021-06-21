@@ -6,14 +6,14 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:43:39 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/21 15:46:48 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/21 18:22:40 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
 
-typedef struct s_data
+typedef struct s_format
 {
 	struct
 	{
@@ -28,7 +28,18 @@ typedef struct s_data
 	int		precision;
 	char	length_modifier;
 	char	type_specifier;
-	enum 	{ OUTPUT_NONE, OUTPUT_STDOUT }e_mode;
+}				t_format;
+
+typedef struct s_output
+{
+	int		chrs_printed;
+	enum	{ OUTPUT_NONE, OUTPUT_STDOUT }e_mode;
+}				t_output;
+
+typedef struct s_data
+{
+	t_format	fmt;
+	t_output	output;
 }				t_data;
 
 #endif

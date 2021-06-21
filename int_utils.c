@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:37:45 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/21 16:29:20 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/21 18:05:27 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ int	get_length_long(t_data *print_data, long value)
 	t_data	temp;
 
 	temp = *print_data;
-	temp.e_mode = OUTPUT_NONE;
-	temp.width = 0;
+	temp.output.e_mode = OUTPUT_NONE;
+	temp.fmt.width = 0;
 	return (print_long(&temp, value));
 }
 
 void	put_correct_sign(t_data *p_d, int *tmp, long *val)
 {
-	if (p_d->s_flags.show_sign && *val >= 0)
+	if (p_d->fmt.s_flags.show_sign && *val >= 0)
 		*tmp = ft_putchar(p_d, '+');
 	else if (*val < 0)
 		*tmp = ft_putchar(p_d, '-');
-	else if (p_d->s_flags.initial_space)
+	else if (p_d->fmt.s_flags.initial_space)
 		*tmp = ft_putchar(p_d, ' ');
 	else
 		*tmp = 0;
@@ -76,10 +76,10 @@ void	make_precision(t_data *p_d, int *c_p, long *val)
 {
 	int	digits;
 
-	if (p_d->precision >= 0)
+	if (p_d->fmt.precision >= 0)
 	{
 		digits = get_number_of_digits(*val);
-		digits = p_d->precision - digits;
+		digits = p_d->fmt.precision - digits;
 		while (digits > 0)
 		{
 			ft_putchar(p_d, '0');

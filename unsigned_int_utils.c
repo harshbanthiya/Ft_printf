@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:47:22 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/21 16:33:32 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/21 18:06:57 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	get_length_unsigned(t_data *print_data, unsigned long value, int base)
 	t_data	temp;
 
 	temp = *print_data;
-	temp.e_mode = OUTPUT_NONE;
-	temp.width = 0;
+	temp.output.e_mode = OUTPUT_NONE;
+	temp.fmt.width = 0;
 	return (print_unsigned_long(&temp, value, base));
 }
 
@@ -50,10 +50,10 @@ void	mk_precision_unsigned(t_data *p_d, int *c_p, unsigned long *v, int *b)
 {
 	int		digits;
 
-	if (p_d->precision >= 0)
+	if (p_d->fmt.precision >= 0)
 	{
 		digits = get_number_digits_unsigned(*v, *b);
-		digits = p_d->precision - digits;
+		digits = p_d->fmt.precision - digits;
 		while (digits > 0)
 		{
 			ft_putchar(p_d, '0');
@@ -65,7 +65,7 @@ void	mk_precision_unsigned(t_data *p_d, int *c_p, unsigned long *v, int *b)
 
 int	base_prefix(t_data *p_d, int *tmp, int *cp, int b)
 {
-	if (p_d->s_flags.alternate_output && b != 10)
+	if (p_d->fmt.s_flags.alternate_output && b != 10)
 	{
 		*tmp = ft_putstr(p_d, (unsigned_symbol(p_d, b)));
 		if (*tmp == -1)

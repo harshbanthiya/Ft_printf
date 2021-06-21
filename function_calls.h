@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:28:03 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/21 16:03:22 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/21 18:18:52 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int		general_print(t_data *print_data, char *str, va_list args);
 int		parse_format_info(t_data *print_data, char *str, va_list args);
 int		generic_print_value(t_data *print_data, char chr, va_list args);
 void	reset_data(t_data *print_data);
+void	reset_format(t_format *fmt);
 /* Parsing Functions -- children functions of parse_format_info*/
 int		parse_length_modifier(t_data *print_data, char chr);
 int		parse_precision(t_data *print_data, char *str, va_list args);

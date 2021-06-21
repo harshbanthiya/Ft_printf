@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 14:48:29 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/21 16:25:58 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/21 18:01:01 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_putstr(t_data *print_data, char *s)
 	if (!print_data)
 		return (-1);
 	length = ft_strlen(s);
-	if (print_data->e_mode == OUTPUT_NONE)
+	if (print_data->output.e_mode == OUTPUT_NONE)
 		return (length);
 	else
 		return ((int)(write(1, s, ft_strlen(s))));
@@ -44,7 +44,7 @@ int	print_char(t_data *print_data, char chr)
 	chrs_printed = 0;
 	if (!print_data)
 		return (-1);
-	print_data->s_flags.zero_pad = 0;
+	print_data->fmt.s_flags.zero_pad = 0;
 	temp = print_left_padding(print_data, length);
 	if (temp == -1)
 		return (-1);
@@ -65,10 +65,10 @@ int	print_char(t_data *print_data, char chr)
 
 void	print_str_sub(t_data *print_data, char *str, int *t, int *l)
 {
-	if (print_data->precision >= 0)
+	if (print_data->fmt.precision >= 0)
 	{
 		*t = *l;
-		while (*str != '\0' && --*t >= 0)
+		while (*str != '\0' && --(*t) >= 0)
 			ft_putchar(print_data, *str++);
 	}
 	else
@@ -83,10 +83,10 @@ int 	print_str(t_data *print_data, char *str)
 
 	if (!str)
 		str = "(null)";
-	print_data->s_flags.zero_pad = 0;
+	print_data->fmt.s_flags.zero_pad = 0;
 	length = ft_strlen(str);
-	if (print_data->precision >= 0 && length > print_data->precision)
-		length = print_data->precision;
+	if (print_data->fmt.precision >= 0 && length > print_data->fmt.precision)
+		length = print_data->fmt.precision;
 	chrs_printed = length;
 	temp = print_left_padding(print_data, length);
 	if (temp == -1)

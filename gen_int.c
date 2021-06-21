@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:36:34 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/21 16:21:40 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/21 18:04:48 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	print_long(t_data *p_d, long val)
 
 	c_p = 0;
 	len = 0;
-	if (p_d->width > 0)
+	if (p_d->fmt.width > 0)
 		len = get_length_long(p_d, val);
 	c_p = prenum_format(p_d, &len, &val);
 	if (c_p == -1)
@@ -47,7 +47,7 @@ int	print_unsigned_long(t_data *print_data, unsigned long value, int base)
 
 	chrs_printed = 0;
 	length = 0;
-	if (print_data->width > 0)
+	if (print_data->fmt.width > 0)
 		length = get_length_unsigned(print_data, value, base);
 	if ((prenum_fmt_unsign(print_data, &temp, &chrs_printed, &length)) == -1)
 		return (-1);
@@ -89,7 +89,7 @@ int	print_general_unsigned(t_data *print_data, char chr, va_list args)
 	{
 		if (sizeof(void *) > sizeof(unsigned long))
 			return (-1);
-		print_data->s_flags.alternate_output = T;
+		print_data->fmt.s_flags.alternate_output = T;
 		p = va_arg(args, void *);
 		lu = (unsigned long)p;
 		return (print_unsigned_long(print_data, lu, base));
@@ -97,8 +97,8 @@ int	print_general_unsigned(t_data *print_data, char chr, va_list args)
 	else
 	{
 		if (chr == 'X')
-			print_data->s_flags.uppercase = T;
-		if (print_data->length_modifier == 'l')
+			print_data->fmt.s_flags.uppercase = T;
+		if (print_data->fmt.length_modifier == 'l')
 			lu = va_arg(args, unsigned long);
 		else
 			lu = va_arg(args, unsigned int);
@@ -110,11 +110,11 @@ int	print_general_int(t_data *print_data, char chr, va_list args)
 {
 	long	value;
 
-	if (print_data->precision >= 0 && print_data->s_flags.zero_pad)
-		print_data->s_flags.zero_pad = 0;
+	if (print_data->fmt.precision >= 0 && print_data->fmt.s_flags.zero_pad)
+		print_data->fmt.s_flags.zero_pad = 0;
 	if (chr == 'd' || chr == 'i')
 	{
-		if (print_data->length_modifier == 'l')
+		if (print_data->fmt.length_modifier == 'l')
 			value = va_arg(args, long);
 		else
 			value = va_arg(args, int);

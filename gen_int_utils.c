@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 15:35:46 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/21 16:27:26 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/21 17:54:06 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_atoi(char *nptr, char **end_ptr)
 
 int	value_zero(t_data *print_data)
 {
-	if (print_data->precision != 0)
+	if (print_data->fmt.precision != 0)
 		return (ft_putchar(print_data, '0'));
 	return (0);
 }
@@ -68,7 +68,7 @@ int	ft_put_unsigned_nbr(t_data *print_data, unsigned long value, int base)
 	remainder = value % base;
 	if (remainder >= 10)
 	{
-		if (print_data->s_flags.uppercase)
+		if (print_data->fmt.s_flags.uppercase)
 			out = remainder - 10 + 'A';
 		else
 			out = remainder - 10 + 'a';
@@ -89,7 +89,7 @@ int	ft_putnbr(t_data *print_data, long value)
 	chrs_printed = 0;
 	if (value == 0)
 	{
-		if (print_data->precision != 0)
+		if (print_data->fmt.precision != 0)
 			chrs_printed += ft_putchar(print_data, '0');
 		return (chrs_printed);
 	}

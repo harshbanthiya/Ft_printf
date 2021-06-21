@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 12:57:41 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/21 15:42:15 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/21 17:58:10 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	parse_field_width(t_data *print_data, char *str, va_list args)
 	}	
 	if (field_width < 0)
 		return (negative_field_width(print_data, &field_width, &chrs_read));
-	print_data->width = field_width;
+	print_data->fmt.width = field_width;
 	return (chrs_read);
 }
 
@@ -83,7 +83,7 @@ int 	parse_precision(t_data *print_data, char *str, va_list args)
 	else
 		precision = 0;
 	if (precision >= 0)
-		print_data->precision = precision;
+		print_data->fmt.precision = precision;
 	return (chrs_read);
 }
 
@@ -92,8 +92,8 @@ int 	parse_length_modifier(t_data *print_data, char chr)
 	if (!print_data)
 		return (-1);
 	if (chr == 'h' || chr == 'l' || chr == 'L')
-		print_data->length_modifier = chr;
-	if (print_data->length_modifier)
+		print_data->fmt.length_modifier = chr;
+	if (print_data->fmt.length_modifier)
 		return (1);
 	else
 		return (0);

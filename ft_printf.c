@@ -6,7 +6,7 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:38:55 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/21 16:18:36 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/21 18:18:17 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 int	generic_print_value(t_data *print_data, char chr, va_list args)
 {
+	int		*n_ptr;
+
 	if (!print_data)
 		return (-1);
-	print_data->type_specifier = chr;
+	print_data->fmt.type_specifier = chr;
 	if (chr == '\0')
 		return (0);
 	else if (chr == 'X')
 	{
-		print_data->s_flags.uppercase = T;
+		print_data->fmt.s_flags.uppercase = T;
 		return (print_general_int(print_data, chr, args));
 	}
 	else if (chr == 'd' || chr == 'i' || chr == 'u')
@@ -34,6 +36,15 @@ int	generic_print_value(t_data *print_data, char chr, va_list args)
 		return (print_str(print_data, va_arg(args, char *)));
 	else if (chr == '%')
 		return (ft_putchar(print_data, '%'));
+	else if (chr == 'n')
+	{
+		n_ptr = va_arg(args, int *);
+		if (n_ptr == NULL)
+			return (-1);
+		else
+			*n_ptr = print_data->output.chrs_printed;
+		return (0);
+	}
 	else
 		return (-1);
 }
@@ -46,7 +57,7 @@ int	parse_format_info(t_data *print_data, char *str, va_list args)
 	if (!print_data || !str || *str == '\0')
 		return (-1);
 	chrs_read = 0;
-	reset_data(print_data);
+	reset_format(&print_data->fmt);
 	temp = parse_flags(print_data, str);
 	chrs_read += temp;
 	str += temp;
@@ -67,15 +78,13 @@ int	general_print(t_data *print_data, char *str, va_list args)
 	int		chrs_printed;
 	int		temp;
 
-	if (!print_data || !str)
-		return (-1);
 	chrs_printed = 0;
 	while (*str)
 	{
 		if (*str != '%')
 		{
-			chrs_printed += ft_putchar(print_data, *str);
-			str++;
+			chrs_printed += ft_putchar(print_data, *str++);
+			print_data->output.chrs_printed = chrs_printed;
 			continue ;
 		}
 		temp = parse_format_info(print_data, ++str, args);
@@ -87,6 +96,7 @@ int	general_print(t_data *print_data, char *str, va_list args)
 			return (-1);
 		chrs_printed += temp;
 		str++;
+		print_data->output.chrs_printed = chrs_printed;
 	}
 	return (chrs_printed);
 }
@@ -97,7 +107,7 @@ int 	ft_printf(const char	*format, ...)
 	va_list		args;
 	t_data		print_data;
 
-	if (!format)
+	if (!format || !print_data)
 		return (-1);
 	chrs_printed = 0;
 	va_start(args, format);
