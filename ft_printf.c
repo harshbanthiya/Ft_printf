@@ -6,19 +6,14 @@
 /*   By: hbanthiy <marvin@42quebec.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 11:38:55 by hbanthiy          #+#    #+#             */
-/*   Updated: 2021/06/21 18:25:19 by hbanthiy         ###   ########.fr       */
+/*   Updated: 2021/06/22 11:11:11 by hbanthiy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	generic_print_value(t_data *print_data, char chr, va_list args)
+int	sub_gen_print_val(t_data *print_data, char chr, va_list args)
 {
-	int		*n_ptr;
-
-	if (!print_data)
-		return (-1);
-	print_data->fmt.type_specifier = chr;
 	if (chr == '\0')
 		return (0);
 	else if (chr == 'X')
@@ -30,7 +25,18 @@ int	generic_print_value(t_data *print_data, char chr, va_list args)
 		return (print_general_int(print_data, chr, args));
 	else if (chr == 'o' || chr == 'x' || chr == 'p')
 		return (print_general_int(print_data, chr, args));
-	else if (chr == 'c')
+	else
+		return (-1);
+}
+
+int	generic_print_value(t_data *print_data, char chr, va_list args)
+{
+	int		*n_ptr;
+
+	if (!print_data)
+		return (-1);
+	print_data->fmt.type_specifier = chr;
+	if (chr == 'c')
 		return (print_char(print_data, (unsigned)va_arg(args, int)));
 	else if (chr == 's')
 		return (print_str(print_data, va_arg(args, char *)));
@@ -46,7 +52,7 @@ int	generic_print_value(t_data *print_data, char chr, va_list args)
 		return (0);
 	}
 	else
-		return (-1);
+		return (sub_gen_print_val(print_data, chr, args));
 }
 
 int	parse_format_info(t_data *print_data, char *str, va_list args)
